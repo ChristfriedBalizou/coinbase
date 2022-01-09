@@ -11,6 +11,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 import com.coinbase.models.Message;
+import com.coinbase.models.Security;
 import com.coinbase.models.CoinbaseWebSocketRequest;
 
 
@@ -63,6 +64,20 @@ public class ModelsTest {
         assertTrue( expected.equals(actual) );
     }
 
+    @Test
+    public void jsonSecurityhouldBeTrue() {
+        
+        List<String> productIds = new ArrayList<String>();
+        productIds.add("P1");
+        productIds.add("P2");
+
+        Security sec = new Security("foobar", productIds);
+
+        String expected = readFile("fixtures/security.json");
+        String actual = sec.toJson();
+
+        assertTrue( expected.equals(actual) );
+    }
 
     private String readFile(String filename) {
         // YOLO: there is no elegant or simple way in my knowledge
