@@ -2,11 +2,14 @@ package com.coinbase.models;
 
 import java.util.List;
 
+import com.coinbase.serializers.Serializer;
+
+
 /**
  * This class represent a basic coinbase message
  * e.i: {type: "type": product_ids: [""]}
  **/
-public class Message {
+public class Message extends Serializer {
 
     private String type;
     private List<String> productIds;

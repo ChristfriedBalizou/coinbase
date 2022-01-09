@@ -22,20 +22,10 @@ public class CoinbaseWebSocketRequest extends Message {
     public CoinbaseWebSocketRequest(
         String type,
         List<String> productIds,
-        List<String> channelTypes,
-        List<Message> channelDescriptions
+        List<Object> channels
     ) {
         super(type, productIds);
-
-        this.channels = new ArrayList<Object>();
-
-        if (channelTypes != null && !channelTypes.isEmpty()) {
-            this.channels.addAll(channelTypes);
-        }
-
-        if (channelDescriptions != null && !channelDescriptions.isEmpty()) {
-            this.channels.addAll(channelDescriptions);
-        }
+        this.channels = channels;
     }
 
     public List<Object> getChannels() {
