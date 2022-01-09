@@ -1,0 +1,12 @@
+{
+    "type": "test",
+    "product_ids": ["P1", "P2"],
+    "channels": [
+        "l1",
+        "l2",
+        {
+            "type": "something",
+            "product_ids": ["P3", "P4"]
+        }
+    ]
+}
