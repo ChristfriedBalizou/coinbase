@@ -6,20 +6,64 @@ import java.util.Map;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
+import com.coinbase.models.CoinbaseWebSocketRequest;
+
+
 /**
  * This class aim to connect to coinbase API Pro websocket
  * endpoint.
  **/
 public class CoinbaseWebSocket extends WebSocketClient {
 
+    private CoinbaseWebSocketRequest request;
+    private int tickLimit;
+
     public CoinbaseWebSocket(URI serverUri) {
         super(serverUri);
     }
+    
+    public CoinbaseWebSocket(URI serverUri, CoinbaseWebSocketRequest request) {
+        super(serverUri);
+        this.request = request;
+    }
 
-    public void sendMessage(String message) {
+    public CoinbaseWebSocket(
+        URI serverUri,
+        CoinbaseWebSocketRequest request,
+        int tickLimit
+    ) {
+        super(serverUri);
+        this.request = request;
+        this.tickLimit = tickLimit;
+    }
+
+    public void subscribe(String product) {
+
+    }
+
+    public void subscribe() {
         // THis function will be use to push message to the 
         // websocket server.
-        send(message);
+        send(request.toJson());
+    }
+
+    public int getTickLimit() {
+        return this.tickLimit;
+    }
+
+    public void setTickLimit(int tickLimit) {
+        this.tickLimit = tickLimit;
+    }
+
+    public CoinbaseWebSocketRequest getRequest() {
+        // Usefull to debug in case we want to check why we are pull 
+        // what we are seeing.
+        return this.request;
+    }
+
+    public void setRequest(CoinbaseWebSocketRequest request) {
+        this.request = request;
+        subscribe();
     }
 
     @Override
