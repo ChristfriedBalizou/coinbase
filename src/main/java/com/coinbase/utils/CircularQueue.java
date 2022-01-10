@@ -21,20 +21,19 @@ public class CircularQueue<E> extends LinkedList<E> {
     public boolean add(E element) {
         // Only is the queue still have place
         // otherwise we discard the value
+
+        int index = indexOf(element);
         
-        if(size() > this.tickLimit - 1) {
+        if(size() > this.tickLimit - 1 && index == -1) {
             // The -1 is because we don't want to exceed the tickLimit
             // we return a naive true we don't want the function to blow
             // this is a desired behavior
             return false;
         }
 
-        int index = indexOf(element);
-
         if(index != -1) {
             // We just update the value
-            set(index, element);
-            return true;
+            remove(index);
         }
 
         return super.add(element);
