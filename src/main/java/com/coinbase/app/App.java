@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Properties;
 import java.util.List;
 import java.util.ArrayList;
+import java.lang.Thread;
 
 import com.coinbase.connectors.CoinbaseWebSocket;
 import com.coinbase.models.Message;
@@ -14,7 +15,14 @@ import com.coinbase.models.CoinbaseWebSocketRequest;
 public class App {
     public static void main( String[] args ) throws Exception {
         Properties prop = new Properties();
-        prop.load(App.class.getResourceAsStream("config/settings.properties"));
+
+        // This is really ugly but I want a native way to that.
+        // issue with non-static in static
+        prop.load(
+            Thread.currentThread()
+                  .getContextClassLoader()
+                  .getResourceAsStream("config/settings.properties")
+        );
 
         String productID = prop.getProperty("DEFAULT_PRODUCT_ID", null);
         String uri = prop.getProperty("COINBASE_WEBSOCKET_ENDPOINT", null);
