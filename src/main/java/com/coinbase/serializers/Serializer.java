@@ -3,6 +3,7 @@ package com.coinbase.serializers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 /**
@@ -24,9 +25,11 @@ public class Serializer {
 
     public static Object fromJson(String json, Class<?> klass) {
         try {
-            return (new ObjectMapper().registerModule(new JavaTimeModule())).readValue(
-                json, klass
-            );
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            mapper.registerModule(new JavaTimeModule());
+
+            return mapper.readValue(json, klass);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
