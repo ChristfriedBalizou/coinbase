@@ -37,14 +37,12 @@ public class CoinbaseWebSocket extends WebSocketClient {
         this.tickLimit = tickLimit;
     }
 
-    public void subscribe(String product) {
-
-    }
-
     public void subscribe() {
         // THis function will be use to push message to the 
         // websocket server.
-        send(request.toJson());
+        if(this.request != null) {
+            send(request.toJson());
+        }
     }
 
     public int getTickLimit() {
@@ -71,7 +69,7 @@ public class CoinbaseWebSocket extends WebSocketClient {
         // Trigger when connection is open
         // we don't really need that function but due to
         // interface contract we have to override this function
-        System.out.println("opened connection");
+        subscribe();
     }
 
     @Override
