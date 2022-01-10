@@ -26,7 +26,7 @@ public class CircularQueue<E> extends LinkedList<E> {
             // The -1 is because we don't want to exceed the tickLimit
             // we return a naive true we don't want the function to blow
             // this is a desired behavior
-            return true;
+            return false;
         }
 
         int index = indexOf(element);
