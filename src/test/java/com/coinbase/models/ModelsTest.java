@@ -2,6 +2,7 @@ package com.coinbase.models;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.nio.file.Files;
@@ -13,6 +14,7 @@ import static org.junit.Assert.assertTrue;
 import com.coinbase.models.Message;
 import com.coinbase.models.Security;
 import com.coinbase.models.CoinbaseWebSocketRequest;
+import com.coinbase.models.UpdateResponse;
 
 
 /**
@@ -75,6 +77,23 @@ public class ModelsTest {
 
         String expected = readFile("fixtures/security.json");
         String actual = sec.toJson();
+
+        assertTrue( expected.equals(actual) );
+    }
+
+    @Test
+    public void jsonUpdateResponseShouldBeTrue() {
+        
+        UpdateResponse expected = (UpdateResponse) UpdateResponse.fromJson(
+            readFile("fixtures/updateResponse.json"), UpdateResponse.class
+        );
+
+        UpdateResponse actual = new UpdateResponse(
+            "l2update",
+            "ETH-USD",
+            new Change("buy", "3148.48", "0.00000000"),
+            LocalDateTime.now()
+        );
 
         assertTrue( expected.equals(actual) );
     }
