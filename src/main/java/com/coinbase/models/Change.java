@@ -6,11 +6,11 @@ import com.coinbase.serializers.Serializer;
 public class Change extends Serializer {
     private String way;
     private String track;
-    private String value;
+    private float value;
 
     public Change() {}
 
-    public Change(String way, String track, String value) {
+    public Change(String way, String track, float value) {
         this.way = way;
         this.track = track;
         this.value = value;
@@ -32,11 +32,11 @@ public class Change extends Serializer {
         this.track = track;
     }
 
-    public String getValue() {
+    public float getValue() {
         return this.value;
     } 
 
-    public void getValue(String value) {
+    public void getValue(float value) {
         this.value = value;
     }
 

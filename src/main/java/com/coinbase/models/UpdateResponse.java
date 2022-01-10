@@ -78,7 +78,7 @@ public class UpdateResponse extends Serializer {
         this.changes = new Change(
             changes.get(0).get(0),
             changes.get(0).get(1),
-            changes.get(0).get(2)
+            Float.parseFloat(changes.get(0).get(2))
         );
     }
 
