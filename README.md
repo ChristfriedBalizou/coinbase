@@ -64,7 +64,15 @@ with standard Java lib).
 
 Before running the application see Installation section.
 Run the application by running:
-`java -cp target/coinbase.git-1.0-SNAPSHOT-jar-with-dependencies.jar com.coinbase.app.App`
+```bash 
+# Will read the product from the properties file
+java -cp target/coinbase.git-1.0-SNAPSHOT-jar-with-dependencies.jar com.coinbase.app.App
+```
+
+You can run specifying your own product:
+```bash 
+java -cp target/coinbase.git-1.0-SNAPSHOT-jar-with-dependencies.jar com.coinbase.app.App ETH-GBP
+```
 
 
 ## Tests
