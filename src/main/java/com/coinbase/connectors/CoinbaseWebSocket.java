@@ -19,31 +19,18 @@ public class CoinbaseWebSocket extends WebSocketClient {
 
     private CoinbaseWebSocketRequest request;
     private Map<String, ICommand> commands;
-    private int tickLimit;
 
     public CoinbaseWebSocket(URI serverUri) {
         super(serverUri);
     }
-    
-    public CoinbaseWebSocket(
-        URI serverUri,
-        CoinbaseWebSocketRequest request,
-        Map<String, ICommand> commands
-    ) {
-        super(serverUri);
-        this.request = request;
-        this.commands = commands;
-    }
 
     public CoinbaseWebSocket(
         URI serverUri,
         CoinbaseWebSocketRequest request,
-        int tickLimit,
         Map<String, ICommand> commands
     ) {
         super(serverUri);
         this.request = request;
-        this.tickLimit = tickLimit;
         this.commands = commands;
     }
 
@@ -53,14 +40,6 @@ public class CoinbaseWebSocket extends WebSocketClient {
         if(this.request != null) {
             send(request.toJson());
         }
-    }
-
-    public int getTickLimit() {
-        return this.tickLimit;
-    }
-
-    public void setTickLimit(int tickLimit) {
-        this.tickLimit = tickLimit;
     }
 
     public CoinbaseWebSocketRequest getRequest() {
