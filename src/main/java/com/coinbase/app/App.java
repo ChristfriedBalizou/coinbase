@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
-import java.lang.Thread;
+import java.lang.InterruptedException;
 
 import com.coinbase.connectors.CoinbaseWebSocket;
 import com.coinbase.models.Message;
@@ -70,10 +70,14 @@ public class App {
         commands.put("buy", new BuyCommand(tickLimit));
         commands.put("sell", new SellCommand(tickLimit));
 
-        CoinbaseWebSocket client = new CoinbaseWebSocket(
+        final CoinbaseWebSocket client = new CoinbaseWebSocket(
             new URI(uri), request, commands
         );
 
-        client.connect();
+        try {
+            client.connectBlocking();
+        } catch (InterruptedException e) {
+            client.close();
+        }
     }
 }
