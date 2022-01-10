@@ -7,6 +7,8 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
 import com.coinbase.models.CoinbaseWebSocketRequest;
+import com.coinbase.models.UpdateResponse;
+import com.coinbase.utils.ICommand;
 
 
 /**
@@ -16,25 +18,33 @@ import com.coinbase.models.CoinbaseWebSocketRequest;
 public class CoinbaseWebSocket extends WebSocketClient {
 
     private CoinbaseWebSocketRequest request;
+    private Map<String, ICommand> commands;
     private int tickLimit;
 
     public CoinbaseWebSocket(URI serverUri) {
         super(serverUri);
     }
     
-    public CoinbaseWebSocket(URI serverUri, CoinbaseWebSocketRequest request) {
+    public CoinbaseWebSocket(
+        URI serverUri,
+        CoinbaseWebSocketRequest request,
+        Map<String, ICommand> commands
+    ) {
         super(serverUri);
         this.request = request;
+        this.commands = commands;
     }
 
     public CoinbaseWebSocket(
         URI serverUri,
         CoinbaseWebSocketRequest request,
-        int tickLimit
+        int tickLimit,
+        Map<String, ICommand> commands
     ) {
         super(serverUri);
         this.request = request;
         this.tickLimit = tickLimit;
+        this.commands = commands;
     }
 
     public void subscribe() {
@@ -64,6 +74,14 @@ public class CoinbaseWebSocket extends WebSocketClient {
         subscribe();
     }
 
+    public Map<String, ICommand> getCommands() {
+        return this.commands;
+    }
+
+    public void setCommand(Map<String, ICommand> commands) {
+        this.commands = commands;
+    }
+
     @Override
     public void onOpen(ServerHandshake handshakedata) {
         // Trigger when connection is open
@@ -75,7 +93,23 @@ public class CoinbaseWebSocket extends WebSocketClient {
     @Override
     public void onMessage(String message) {
         // Trigger when e receive a message from the websocket server
-        System.out.println("received: " + message);
+
+        // There should be a way to avoid casting when already given
+        // the class as argument. Probably a Java limitation
+        UpdateResponse response = (UpdateResponse) UpdateResponse.fromJson(
+            message, UpdateResponse.class
+        );
+
+        if (!response.getType().equals("l2update")) {
+            // we only process l2update type message
+            // YOLO: we can also use an enum here
+            return;
+        }
+    
+        if(this.commands.containsKey(response.getChanges().getWay())) {
+            // each stack should handle his own process
+            this.commands.get(response.getChanges().getWay()).process(response);
+        }
     }
 
     @Override
