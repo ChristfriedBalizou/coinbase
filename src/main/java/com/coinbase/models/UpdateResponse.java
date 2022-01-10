@@ -83,6 +83,11 @@ public class UpdateResponse extends Serializer {
     }
 
     @Override
+    public String toString() {
+        return "Product: " + this.productId + ", " + this.changes;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         final UpdateResponse other = (UpdateResponse) obj;
         

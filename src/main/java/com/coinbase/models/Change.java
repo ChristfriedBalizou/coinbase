@@ -41,6 +41,15 @@ public class Change extends Serializer {
     }
 
     @Override
+    public String toString() {
+        return (
+            "Way: " + this.way + ", " + 
+            "Trade ID: " + this.track + ", " +
+            "Price: " + this.value
+        );
+    }
+
+    @Override
     public boolean equals(Object obj) {
         final Change other = (Change) obj;
         return this.track.equals(other.track) && this.way.equals(other.way);
