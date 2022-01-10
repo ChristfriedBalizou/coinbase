@@ -3,6 +3,8 @@ package com.coinbase.app;
 import java.net.URI;
 import java.util.Properties;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.lang.Thread;
 
@@ -10,6 +12,9 @@ import com.coinbase.connectors.CoinbaseWebSocket;
 import com.coinbase.models.Message;
 import com.coinbase.models.Security;
 import com.coinbase.models.CoinbaseWebSocketRequest;
+import com.coinbase.utils.ICommand;
+import com.coinbase.utils.BuyCommand;
+import com.coinbase.utils.SellCommand;
 
 
 public class App {
@@ -58,10 +63,15 @@ public class App {
             "subscribe", products, channels
         );
 
+
+        int tickLimit = Integer.parseInt(prop.getProperty("TICK_LIMIT", "10"));
+
+        Map<String, ICommand> commands = new HashMap<>();
+        commands.put("buy", new BuyCommand(tickLimit));
+        commands.put("sell", new SellCommand(tickLimit));
+
         CoinbaseWebSocket client = new CoinbaseWebSocket(
-            new URI(uri),
-            request,
-            Integer.parseInt(prop.getProperty("TICK_LIMIT", "10"))
+            new URI(uri), request, commands
         );
 
         client.connect();
