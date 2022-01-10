@@ -91,7 +91,7 @@ public class ModelsTest {
         UpdateResponse actual = new UpdateResponse(
             "l2update",
             "ETH-USD",
-            new Change("buy", "3148.48", "0.00000000"),
+            new Change("buy", "3148.48", 0),
             LocalDateTime.now()
         );
 
