@@ -33,7 +33,8 @@ public class CircularQueue<E> extends LinkedList<E> {
 
         if(index != -1) {
             // We just update the value
-            remove(index);
+            set(index, element);
+            return true;
         }
 
         return super.add(element);
