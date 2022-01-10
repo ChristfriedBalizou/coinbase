@@ -13,6 +13,13 @@ public class BuyCommand implements ICommand {
     }
 
     public void process(UpdateResponse response) {
+
+        if (!(response.getChanges().getValue() > 0)) {
+            // we only process non-zero values
+            // we sometimes have trade_id that does not move a lot
+            return;
+        }
+
         if(store.add(response)) {
             // We only print out values that are inserted/updated 
             // to the store.
