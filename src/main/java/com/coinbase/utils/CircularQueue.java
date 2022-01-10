@@ -10,7 +10,7 @@ import java.util.LinkedList;
  *
  * With this datastruct we can keep track of the n values.
  **/
-public class CiruclarQueue<E> extends LinkedList<E> {
+public class CircularQueue<E> extends LinkedList<E> {
     private int tickLimit;
 
     public CircularQueue(int tickLimit) {
